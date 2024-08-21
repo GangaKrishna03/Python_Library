@@ -1,0 +1,51 @@
+class Book: #creating a class named Book
+    def __init__(self, title, author, ISBN): #initializing the attributes of book
+        self.title = title
+        self.author = author
+        self.ISBN = ISBN
+    def display_book_info(self):
+        print("Title: {}, Author: {}, ISBN: {}".format(self.title, self.author, self.ISBN))
+
+
+class Library: #creating a class named Library
+    def __init__(self):
+        self.book_list = [] #initially the books list is empty
+    def add_book(self, book):
+        self.book_list = self.book_list + [book] #books are added into the list
+    def display_books(self): #to display the books present in the library
+        if self.book_list == []: #if no books are added into the library 
+            print("No books in Library")
+        else:                    #if books exist in library
+            for book in self.book_list:
+                book.display_book_info()
+    def book_search(self, req_book): #book_search method is accessed to search the required book
+        for book in self.book_list: #every book is iterated in order to match with the requirement by title
+            if req_book.lower() == book.title.lower(): #lower() is applied to search the book irrespective of the letter_case
+                return book.display_book_info()
+        print('Book not found')
+
+
+class EBook(Book): #sub_class 'EBook' inherited from super_class 'Book'
+    def __init__(self, title, author, ISBN, file_format):
+        super().__init__(title, author, ISBN) #accessing super_class __init__ method
+        self.file_format = file_format #creating additional attribute
+    def display_book_info(self): #overriding display method of super_class
+        super().display_book_info() #accessing super_class display method to include file format
+        print("file format: {}".format(self.file_format))
+ 
+
+#creating instances for the classes       
+B1 = Book('Concepts of Physics', 'H.C.Verma', '852147')
+B2 = Book('Physical Chemistry', 'O.P.Tandon', '963258')
+L = Library()
+EB = EBook('Simplified Physics', 'S.L.Arora', '759314', 'PDF')
+
+#adding books to library
+L.add_book(B1)
+L.add_book(B2)
+
+#displaying books in library
+L.display_books()
+
+#book search by title
+L.book_search('Concepts of Physics')
